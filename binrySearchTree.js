@@ -26,6 +26,9 @@ class node {
 class tree {
     constructor(arr) {
         this.root = this.buildtree(arr, 0, arr.length - 1);
+        this.inOrderValue = [];
+        this.preOrderValue = [];
+        this.postOrderValue = [];
         prettyPrint(this.root)
         
     }
@@ -85,6 +88,80 @@ class tree {
             prettyPrint(this.root);
             return root
     };
+
+    levelOrder(root = this.root){
+        let queue = [];
+        let result = [];
+
+        if (root === null) return;
+        
+        queue.push(root);
+
+        while (queue.length > 0){
+            let current = queue.shift(root);
+            result.push(current.value);
+
+            if ( current.left !== null) queue.push(current.left);
+            if ( current.right !== null) queue.push(current.right);
+
+        }
+        console.log("Level Order", result);
+        return result;
+    };
+
+    inOrder(root = this.root){
+        if (root == null) return;
+
+        if (root.left !== null) {
+            this.inOrder(root.left)
+        }
+
+        if ( root.value !== undefined){
+            this.inOrderValue.push(root.value);
+        }
+
+        if (root.right !== null) {
+            this.inOrder(root.right)
+        }
+        console.log("Order Value", this.inOrderValue)
+    };
+
+    preOrder(root = this.root){
+        if (root == null) return;
+
+        if ( root.value !== undefined){
+            this.preOrderValue.push(root.value);
+        }
+
+        if (root.left !== null) {
+            this.preOrder(root.left)
+        }
+
+        if (root.right !== null) {
+            this.preOrder(root.right)
+        }
+        console.log("Preorder Value", this.preOrderValue)
+    };
+
+    postOrder(root = this.root){
+        if (root == null) return;
+
+        if (root.left !== null) {
+            this.postOrder(root.left)
+        }
+
+        if (root.right !== null) {
+            this.postOrder(root.right)
+        }
+
+        if ( root.value !== undefined){
+            this.postOrderValue.push(root.value);
+        }
+
+      
+        console.log("Postorder Value", this.postOrderValue)
+    };
+    
     
 
 };
@@ -101,3 +178,7 @@ function minValue(root){
 
 let balanceTree = new tree ([1,2,3,4,5,6,7], 1, 7);
 console.log(balanceTree.find(6));
+balanceTree.levelOrder();
+balanceTree.inOrder();
+balanceTree.preOrder();
+balanceTree.postOrder();

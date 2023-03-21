@@ -72,7 +72,19 @@ class tree {
         prettyPrint(this.root);
         return root
     };
-        
+        find(value, root = this.root){
+            if (root == null) return false;
+
+            if (root.value == value) return root;
+
+            if (root.value > value){
+                return this.find(value, root.left);
+            } else if (root.value < value){
+                return this.find(value, root.right);
+            } 
+            prettyPrint(this.root);
+            return root
+    };
     
 
 };
@@ -88,4 +100,4 @@ function minValue(root){
 }
 
 let balanceTree = new tree ([1,2,3,4,5,6,7], 1, 7);
-console.log(balanceTree.delete(6));
+console.log(balanceTree.find(6));

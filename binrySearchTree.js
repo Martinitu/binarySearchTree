@@ -162,7 +162,58 @@ class tree {
         console.log("Postorder Value", this.postOrderValue)
     };
     
-    
+    height(root = this.root){
+        if (root == null) {
+            return -1;
+        } else {
+        let left = this.height(root.left);
+        let right = this.height(root.right);
+
+        return Math.max(left, right) + 1;
+    }
+    };
+
+    depth(nodeVal, root = this.root, count = 0){
+        if (root == null) return;
+        if (root.value === nodeVal) return count;
+
+        if (root.value < nodeVal) {
+            return this.depth(nodeVal, root.right, (count + 1));
+        } else {
+            return this.depth(nodeVal, root.left, (count + 1));
+        }
+
+    };
+
+    isBalance(root =  this.root){
+        if (root == null) return false;
+        let left = root.left;
+        let right = root.right;
+        if( Math.abs(this.height(left) - this.height(right)) > 1) {
+            return false
+        } else {
+            return true
+        }
+    };
+    rebalance(){
+        if (this.isBalance(this.root)) return this.root;
+
+        let balancearr = [];
+        balancearr = this.traverse(this.root, balancearr);
+
+        let balanceTree = new tree(balancearr);
+        prettyPrint(balanceTree.root)
+        console.log("is balance", balanceTree.isBalance());
+        return balanceTree.root
+    };
+
+    traverse(root, arr){
+        if (arr !== undefined) arr.push(root.value);
+        if (root.left !== null) {
+            this.traverse(root.left, arr);
+        }
+        return arr;
+    };
 
 };
 
@@ -176,9 +227,13 @@ function minValue(root){
     return min;
 }
 
-let balanceTree = new tree ([1,2,3,4,5,6,7], 1, 7);
+let balanceTree = new tree ([9,2,5,1,8,7,6,4]);
 console.log(balanceTree.find(6));
 balanceTree.levelOrder();
 balanceTree.inOrder();
 balanceTree.preOrder();
 balanceTree.postOrder();
+console.log(balanceTree.height());
+console.log("depth", balanceTree.depth(2));
+console.log("is balance", balanceTree.isBalance());
+ 
